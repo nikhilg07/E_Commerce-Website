@@ -1,11 +1,35 @@
 package com.quinbay.Ecommerce.backend.entity;
 
-public class CartEntity {
-    private Long id;   //primary key
-    private Long productId;   //foreign key
-    private Long userId;    //foreign key
+import javax.persistence.*;
 
-    public Long getId(){
+@Entity
+@Table(name="cart")
+public class CartEntity{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;   //primary key
+    private Integer quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+    UserEntity userEntity;
+
+    @OneToOne
+    @JoinColumn(name = "productId", referencedColumnName = "id")
+    ProductEntity productEntity;
+
+    public CartEntity(Long id, Integer quantity, Long userId, Long productId) {
+        this.id = id;
+        this.quantity = quantity;
+        this.userEntity.setId(userId);
+        this.productEntity.setId(productId);
+    }
+    public CartEntity(){}
+
+
+
+    public Long getId() {
         return id;
     }
 
@@ -13,25 +37,28 @@ public class CartEntity {
         this.id = id;
     }
 
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
     public Long getProductId() {
-        return productId;
-    }
+       return productEntity.getId();
+   }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public CartEntity(Long id, Long productId, Long userId) {
-        this.id = id;
-        this.productId = productId;
-        this.userId = userId;
-    }
+   public Long getUserId(){
+        return userEntity.getId();
+   }
 }
+
+
+//public void setSellerProducts(SellerEntity sellerProducts) {
+//        this.sellerProducts = sellerProducts;
+//    }
+//
+//    public Long getSellerId() {
+//        return sellerProducts.getId();
+//    }
