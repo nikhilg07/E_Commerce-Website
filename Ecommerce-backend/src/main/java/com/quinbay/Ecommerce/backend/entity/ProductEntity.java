@@ -1,13 +1,59 @@
 package com.quinbay.Ecommerce.backend.entity;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.util.Set;
+
+@Entity
+@Table(name="products")
 public class ProductEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;  //primary key
-    private Long sellerId;  //secondary key
-    private String name;
-    private String details;
-    private String image;
+//    private Long sellerId;  //secondary key
+
+
+    @NotBlank(message = "Product Name cannot be null")
+    private String name, details, image;
     private double price;
     private Long stock;
+
+    @ManyToOne
+    @JoinColumn(name = "sellerId", referencedColumnName = "id")
+    SellerEntity sellerProducts;
+
+//    SellerEntity sellerEntity;
+
+    public ProductEntity(){};
+
+    public ProductEntity(Long id, @NotBlank(message = "Product Name cannot be null") String name, @NotBlank(message = "Product Name cannot be null") String details, @NotBlank(message = "Product Name cannot be null") String image, double price, Long stock, Long sellerProducts) {
+        this.id = id;
+        this.name = name;
+        this.details = details;
+        this.image = image;
+        this.price = price;
+        this.stock = stock;
+//        this.sellerProducts.contains() = sellerProducts;
+        this.sellerProducts.setId(sellerProducts);
+    }
+
+    public SellerEntity getSellerProducts() {
+        return sellerProducts;
+    }
+
+    public void setSellerProducts(SellerEntity sellerProducts) {
+        this.sellerProducts = sellerProducts;
+    }
+
+    public Long getSellerId() {
+        return sellerProducts.getId();
+    }
+
+    public void setSellerId(Long sellerProducts) {
+        this.sellerProducts.setId(sellerProducts);
+    }
 
     public Long getId() {
         return id;
@@ -15,14 +61,6 @@ public class ProductEntity {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(Long sellerId) {
-        this.sellerId = sellerId;
     }
 
     public String getName() {
@@ -65,13 +103,13 @@ public class ProductEntity {
         this.stock = stock;
     }
 
-    public ProductEntity(Long id, Long sellerId, String name, String details, String image, double price, Long stock) {
-        this.id = id;
-        this.sellerId = sellerId;
-        this.name = name;
-        this.details = details;
-        this.image = image;
-        this.price = price;
-        this.stock = stock;
-    }
+//    public Set<SellerEntity> getSellerProducts() {
+//        return sellerProducts;
+//    }
+
+//    public void setSellerProducts(Set<SellerEntity> sellerProducts) {
+//        this.sellerProducts = sellerProducts;
+//    }
 }
+
+
