@@ -1,9 +1,20 @@
 package com.quinbay.Ecommerce.backend.entity;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+
+@Entity
+@Table(name="users")
 public class UserEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id",nullable = false)
     private Long id;
-    private String email;
-    private String name;
+
+    @NotBlank(message="User name or email should not be null")
+    private String email, name;
+
 
     public Long getId() {
         return id;
@@ -34,6 +45,4 @@ public class UserEntity {
         this.email = email;
         this.name = name;
     }
-
-
 }
